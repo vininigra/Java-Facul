@@ -1,16 +1,14 @@
 package domain;
-
-public class Lagarto {
     
 
-public class LAGARTO implements Algoritmo{
+public class Lagarto implements Algoritmo{
 
     @Override
     public void excutar(TipoAlgoritmo tipo) {
         switch(tipo){
             case LAGARTO-> System.out.println("Perdeu! Lagarto come o Papel");
 
-            case TESOURA-> System.out.println("Perdeu! Tesoura corta o Papel");
+            case TESOURA-> System.out.println("Ganhou! Tesoura corta o Papel");
 
             case PEDRA-> System.out.println("Ganhou! Papel embrulha Pedra");
             
@@ -20,9 +18,7 @@ public class LAGARTO implements Algoritmo{
         }
         
     }
-
-    
     
 }
 
-}
+

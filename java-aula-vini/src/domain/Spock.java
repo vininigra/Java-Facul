@@ -1,6 +1,6 @@
 package domain;
 
-public class Papel implements Algoritmo{
+public class Spock implements Algoritmo{
 
     @Override
     public void excutar(TipoAlgoritmo tipo) {
