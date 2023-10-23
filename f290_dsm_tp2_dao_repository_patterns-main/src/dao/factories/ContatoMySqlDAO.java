@@ -45,11 +45,32 @@ public class ContatoMySqlDAO implements IContatoDAO {
     @Override
     public void atualizar(ContatoVO contato) {
         //TODO: Atualizar contato existente na base dados
+        StringBuilder builder = new StringBuilder();
+        builder.append("UPDATE contatos SET nome = '%s', email = '%s', telefone = '%s', linkedin = '%s' WHERE id = %d");
+        String query = String.format(builder.toString(),
+        contato.getNome(),
+        contato.getEmail(),
+        contato.getTelefone(),
+        contato.getLinkedin(),
+        contato.getId());
+        try(Statement stm = connection.createStatement()){
+            stm.execute(query);
+        }catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
-
     @Override
     public void excluir(Integer id) {
         // TODO: Excluir contato com base no ID
+        StringBuilder builder = new StringBuilder();
+        builder.append("DELETE FROM contatos WHERE id = %d");
+        String query = String.format(builder.toString(), id);
+        try(Statement stm = connection.createStatement()){
+            stm.execute(query);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -82,6 +103,23 @@ public class ContatoMySqlDAO implements IContatoDAO {
     @Override
     public ContatoVO buscarPorEmail(String email) {
         // TODO: Retornar um contato com base no e-mail
+    String query = "SELECT id, nome, email, telefone, linkedin FROM contatos WHERE email = ?";
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setString(1, email);
+        try (ResultSet rst = ps.executeQuery()) {
+            if (rst.next()) {
+                return new ContatoVO(
+                    rst.getInt("id"),
+                    rst.getString("nome"),
+                    rst.getString("email"),
+                    rst.getString("telefone"),
+                    rst.getString("linkedin")
+                );
+            }
+        }
+    } catch (SQLException e) {
+        logger.log(Level.SEVERE, "Falha ao buscar o contato por e-mail.", e);
+    }
         return null;
     }
 
